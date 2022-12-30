@@ -1,30 +1,29 @@
 pipeline {
-
     agent any
     stages {
 
-        stage('checkout codebase'){
-            steps(
-                checkout scm: [$class: 'GITSCM' ,userRemoteConfigs: [[credentialsId: 'jenkind-github',url: 'git@github.com:ankitasharma7/multithreading-example-1.git']]]
-            )
-        }
+        stage('Checkout Codebase') {
+            steps {
+            checkout scm: [$class: 'GitSCM',
+            userRemoteConfigs: [[credentialsId: 'github-ssh-key',url: 'git@github.com:ankitasharma7/multithreading-example-1.git']]]
 
-        stage('Build'){
-            steps (
+            }
+        }
+        stage('Build') {
+            steps {
                 sh 'gcc mt-example-0.c -lpthread'
-            )
-        }
 
-        stage('Test'){
-            steps (
+            }
+        }
+        stage('Test') {
+            steps {
                 sh './a.out'
-            )
+            }
         }
-
         stage('Deploy') {
-            steps(
+            steps {
                 sh 'echo Done!'
-            )
+            }
         }
     }
 }
